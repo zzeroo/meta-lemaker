@@ -3,4 +3,4 @@ setenv bootargs 'earlyprintk console=ttyS0,115200 root=/dev/mmcblk0p2 rootfstype
 mmc dev 0
 fatload mmc 0:1 ${kernel_addr_r} uImage
 fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}
-bootm ${kernel_addr_r} - ${fdt_addr_r}
+bootz ${kernel_addr_r} - ${fdt_addr_r}
