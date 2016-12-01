@@ -5,13 +5,14 @@ Aimed to support the Lemaker Banana Pro borard.
 
 This layer depends on:
 
-  URI: git://git.openembedded.org/bitbake
-  branch: master
+```
+URI: git://git.openembedded.org/bitbake
+branch: master
 
-  URI: git://git.openembedded.org/openembedded-core
-  layers: meta
-  branch: master
-
+URI: git://git.openembedded.org/openembedded-core
+layers: meta
+branch: master
+```
 
 # Table of Contents
 
