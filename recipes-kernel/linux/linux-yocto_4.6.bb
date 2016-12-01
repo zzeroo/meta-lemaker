@@ -6,8 +6,8 @@ require recipes-kernel/linux/linux-yocto.inc
 SRCREV_machine ?= "f55532a0c0b8bb6148f4e07853b876ef73bc69ca"
 SRCREV_meta ?= "52f2e8d990a85865af529575d6aac745c3ac7ba6"
 
-SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.8.git;name=machine;branch=${KBRANCH}; \
-           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.8;destsuffix=${KMETA}"
+SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.6.git;name=machine;branch=${KBRANCH}; \
+           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.6;destsuffix=${KMETA}"
 
 LINUX_VERSION ?= "4.6-rc1"
 
