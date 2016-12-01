@@ -1,11 +1,20 @@
+From 48a8ed274abe258303ce622f216ffedc1e8cfbab Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Stefan=20M=C3=BCller?= <s.mueller@it.kls-glt.de>
+Date: Wed, 30 Nov 2016 17:55:11 +0100
+Subject: [PATCH] Bananapro_defconfig patched
+
+---
+ configs/Bananapro_defconfig | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
 diff --git a/configs/Bananapro_defconfig b/configs/Bananapro_defconfig
-index 9b39124..387cb4b 100644
+index 4f4a07b..50e9814 100644
 --- a/configs/Bananapro_defconfig
 +++ b/configs/Bananapro_defconfig
 @@ -18,3 +18,10 @@ CONFIG_NETCONSOLE=y
  CONFIG_ETH_DESIGNWARE=y
- CONFIG_AXP_ALDO4_VOLT=2500
  CONFIG_USB_EHCI_HCD=y
+ CONFIG_AXP_ALDO4_VOLT=2500
 +CONFIG_VIDEO_LCD_MODE="x:1024,y:600,depth:24,pclk_khz:55000,le:100,ri:170,up:10,lo:15,hs:50,vs:10,sync:3,vmode:0"
 +CONFIG_VIDEO_LCD_PANEL_LVDS=y
 +CONFIG_VIDEO_LCD_POWER="PH12"
@@ -13,3 +22,6 @@ index 9b39124..387cb4b 100644
 +CONFIG_VIDEO_LCD_BL_PWM="PB2"
 +CONFIG_VIDEO_LCD_BL_PWM_ACTIVE_LOW=n
 +CONFIG_BOOTDELAY=0
+-- 
+2.10.2
+

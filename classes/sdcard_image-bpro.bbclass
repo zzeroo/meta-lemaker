@@ -4,24 +4,7 @@ inherit linux-bananapro-base
 #
 # Create an image that can by written onto a SD card using dd.
 #
-# The disk layout used is:
-#
-#    0                      -> IMAGE_ROOTFS_ALIGNMENT         - reserved for other data
-#    IMAGE_ROOTFS_ALIGNMENT -> BOOT_SPACE                     - bootloader and kernel
-#    BOOT_SPACE             -> SDIMG_SIZE                     - rootfs
-#
 
-#                                                     Default Free space = 1.3x
-#                                                     Use IMAGE_OVERHEAD_FACTOR to add more space
-#                                                     <--------->
-#            4MiB              40MiB           SDIMG_ROOTFS
-# <-----------------------> <----------> <---------------------->
-#  ------------------------ ------------ ------------------------
-# | IMAGE_ROOTFS_ALIGNMENT | BOOT_SPACE | ROOTFS_SIZE            |
-#  ------------------------ ------------ ------------------------
-# ^                        ^            ^                        ^
-# |                        |            |                        |
-# 0                      4MiB     4MiB + 40MiB       4MiB + 40Mib + ROOTFS_SIZE
 
 # This image depends on the rootfs image
 IMAGE_TYPEDEP_sdcard = "${SDIMG_ROOTFS_TYPE}"
@@ -51,7 +34,7 @@ IMAGE_DEPENDS_sdcard = " \
 			dosfstools-native \
 			virtual/kernel:do_deploy \
 			${IMAGE_BOOTLOADER} \
-			${@bb.utils.contains('KERNEL_IMAGETYPE', 'uImage', 'u-boot', '',d)} \
+			${@bb.utils.contains('KERNEL_IMAGETYPE', 'uImage', 'u-boot bpro-u-boot-scr', '',d)} \
 			"
 
 # SD card image name
@@ -64,38 +47,48 @@ IMAGE_CMD_sdcard () {
 	# Align partitions
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE} + ${IMAGE_ROOTFS_ALIGNMENT} - 1)
 	BOOT_SPACE_ALIGNED=$(expr ${BOOT_SPACE_ALIGNED} - ${BOOT_SPACE_ALIGNED} % ${IMAGE_ROOTFS_ALIGNMENT})
-	SDIMG_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${BOOT_SPACE_ALIGNED} + $ROOTFS_SIZE)
+	SDIMG_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${BOOT_SPACE_ALIGNED} + $ROOTFS_SIZE )
 
-	echo "Creating filesystem with Boot partition ${BOOT_SPACE_ALIGNED} KiB and RootFS ${ROOTFS_SIZE} KiB"
+	echo "Creating filesystem with Boot partition ${BOOT_SPACE_ALIGNED} KiB and RootFS $ROOTFS_SIZE KiB"
 
 	# Initialize sdcard image file
-	echo "dd if=/dev/zero of=${SDIMG} bs=1024 count=0 seek=${SDIMG_SIZE}"
-	dd if=/dev/zero of=${SDIMG} bs=1024 count=0 seek=${SDIMG_SIZE}
-
-	# copy in U-Boot files
-	# dd if=${DEPLOY_DIR_IMAGE}/u-boot-sunxi-with-spl.bin of=${SDIMG} bs=1024 seek=8
+	dd if=/dev/zero of=${SDIMG} bs=1024 count=${SDIMG_SIZE}
 
 	# Create partition table
-	parted -s ${SDIMG} mklabel msdos
-	# # Create boot partition and mark it as bootable
+	parted -s ${SDIMG} -a optimal mklabel msdos
+	# Create boot partition and mark it as bootable
 	parted -s ${SDIMG} unit KiB mkpart primary fat32 ${IMAGE_ROOTFS_ALIGNMENT} $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ROOTFS_ALIGNMENT})
 	parted -s ${SDIMG} set 1 boot on
 	# Create rootfs partition to the end of disk
 	parted -s ${SDIMG} -- unit KiB mkpart primary ext2 $(expr ${BOOT_SPACE_ALIGNED} \+ ${IMAGE_ROOTFS_ALIGNMENT}) -1s
 	parted ${SDIMG} print
 
+	# copy in U-Boot files
+	dd if=${DEPLOY_DIR_IMAGE}/u-boot-sunxi-with-spl.bin of=${SDIMG} bs=1024 seek=8 conv=notrunc
+
 	# Create a vfat image with boot files
 	BOOT_BLOCKS=$(LC_ALL=C parted -s ${SDIMG} unit b print | awk '/ 1 / { print substr($4, 1, length($4 -1)) / 512 /2 }')
 	rm -f ${WORKDIR}/boot.img
-	mkfs.vfat -n "${BOOTDD_VOLUME_ID}" -S 512 -C ${WORKDIR}/boot.img $BOOT_BLOCKS
+	echo "mkfs.vfat -n ${BOOTDD_VOLUME_ID} -S 512 -C ${WORKDIR}/boot.img ${BOOT_BLOCKS}"
+	mkfs.vfat -n "${BOOTDD_VOLUME_ID}" -S 512 -C ${WORKDIR}/boot.img ${BOOT_BLOCKS}
 
-	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/u-boot.bin ::${SDIMG_KERNELIMAGE}
-	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/boot.cmd ::boot.cmd
+	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/boot.scr ::boot.scr
+	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}${KERNEL_INITRAMFS}-${MACHINE}.bin ::uImage
+	# DeviceTree
+	DTB_BASE_NAME="sun7i-a20-bananapro"
+	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${DTB_BASE_NAME}.dtb ::${DTB_BASE_NAME}.dtb
 
 	# Add stamp file
 	echo "${IMAGE_NAME}" > ${WORKDIR}/image-version-info
 	mcopy -i ${WORKDIR}/boot.img -v ${WORKDIR}/image-version-info ::
 
 	# Burn Partitions
-	# dd if=${WORKDIR}/boot.img of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
+	dd if=${WORKDIR}/boot.img of=${SDIMG} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
+	# If SDIMG_ROOTFS_TYPE is a .xz file use xzcat
+	if echo "${SDIMG_ROOTFS_TYPE}" | egrep -q "*\.xz"
+	then
+		xzcat ${SDIMG_ROOTFS} | dd of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${BOOT_SPACE_ALIGNED} + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
+	else
+		dd if=${SDIMG_ROOTFS} of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${BOOT_SPACE_ALIGNED} + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
+	fi
 }
