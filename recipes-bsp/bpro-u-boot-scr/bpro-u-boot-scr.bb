@@ -1,6 +1,6 @@
 DESCRIPTION="U-boot mainline configured for Lemaker Banana Pro Board"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+LICENSE = "COPYING.GPLv2"
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
 PR = "r5"
 
 COMPATIBLE_MACHINE = "bananapro"
