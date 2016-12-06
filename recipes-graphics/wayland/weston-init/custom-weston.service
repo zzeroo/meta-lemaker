@@ -1,0 +1,18 @@
+[Unit]
+Description=Weston launcher
+RequiresMountsFor=/run
+After=getty@tty1.service
+
+[Service]
+Restart=always
+RestartSec=10
+User=root
+EnvironmentFile=-/etc/default/weston
+Environment=XDG_RUNTIME_DIR=/run/user/root
+Environment=LD_LIBRARY_PATH=/usr/lib
+ExecStartPre=/bin/mkdir -p /run/user/root
+ExecStartPre=/bin/chmod 0700 /run/user/root
+ExecStart=/usr/bin/weston --tty=1 --log=/var/log/weston.log
+
+[Install]
+WantedBy=multi-user.target

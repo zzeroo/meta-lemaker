@@ -1,5 +1,5 @@
-Test meta layer for yocto (poky/ morty).
-Aimed to support the Lemaker Banana Pro borard.
+Test BSP meta layer for yocto (poky/ morty).
+Aimed to support the Lemaker Banana Pro board.
 
 # Dependencies
 

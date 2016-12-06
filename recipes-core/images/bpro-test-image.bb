@@ -2,3 +2,4 @@
 include bpro-basic-image.bb
 
 IMAGE_INSTALL_append = " packagegroup-bpro-test"
+IMAGE_INSTALL += "weston weston-init"
