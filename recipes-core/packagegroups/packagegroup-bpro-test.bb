@@ -5,6 +5,9 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.GPLv2;md5=751419260aa954499f
 inherit packagegroup
 
 RDEPENDS_${PN} = "\
+  wayland \
+  gtk+3 \
+  hello-world-gtk3-rs \
 "
 
 RRECOMMENDS_${PN} = "\
