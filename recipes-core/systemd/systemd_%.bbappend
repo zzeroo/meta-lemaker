@@ -1,1 +1,1 @@
-EXTRA_OECONF_append = " --disable-logind"
+# EXTRA_OECONF_append = " --disable-logind"
