@@ -1,0 +1,11 @@
+[Unit]
+Description=DHCP Client
+Documentation=man:dhclient(8)
+Wants=network.target
+
+[Service]
+PIDFile=/var/run/dhclient.pid
+ExecStart=/sbin/dhclient wlan0
+
+[Install]
+WantedBy=multi-user.target
