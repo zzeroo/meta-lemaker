@@ -11,5 +11,5 @@ do_install_append() {
   install -d ${D}${sysconfdir}/systemd/network/
   install -m 0644 ${WORKDIR}/*.network ${D}${sysconfdir}/systemd/network/
 
-  ln -s /var/run/resolv.conf ${D}${sysconfdir}/resolv.conf
+  ln -s /run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv.conf
 }
