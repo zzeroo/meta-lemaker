@@ -3,7 +3,7 @@ SRC_URI = "file://custom-weston.service \
 		file://weston.ini \
 	file://wallpaper-desktop-ra-gas.png \
 		"
-PV = "r3"
+PR = "r0"
 
 
 RDEPENDS_${PN} = "weston"
