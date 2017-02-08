@@ -1,0 +1,24 @@
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  /mnt/src/poky/meta \
+  /mnt/src/poky/meta-poky \
+  /mnt/src/poky/meta-yocto-bsp \
+  /mnt/src/poky/meta-openembedded/meta-oe \
+  /mnt/src/poky/meta-lemaker \
+  /mnt/src/poky/meta-ra-gas \
+  /mnt/src/poky/meta-rust-bin \
+  "
+
+# git://git.yoctoproject.org/poky
+# meta-poky         = "git://git.yoctoproject.org/poky master
+# meta-yocto-bsp    = "git://git.yoctoproject.org/poky
+# meta-oe           = "git://git.openembedded.org/meta-openembedded master
+# meta-lemaker      = "master:cdddf08a64f34d9bce9b51093ed31bdc116debc7"
+# meta-ra-gas       = "master:b0ac687c9aaff24c59c2e16c299ac829db34257f"
+# meta-rust-bin     = "nightly:f84858a6696d38b2b7c4855016d0f8865766ffff"
