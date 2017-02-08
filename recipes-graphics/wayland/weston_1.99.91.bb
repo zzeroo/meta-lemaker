@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI = " \
   gitsm://anongit.freedesktop.org/git/wayland/weston.git;branch=master;protocol=https \
+  file://weston.png \
+  file://weston.desktop \
 "
 S = "${WORKDIR}/git"
 
@@ -19,7 +21,7 @@ REQUIRED_DISTRO_FEATURES = "opengl"
 DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
 DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
 
-EXTRA_OECONF = "--enable-setuid-install \
+EXTRA_OECONF = "--disable-setuid-install \
                 WAYLAND_PROTOCOLS_SYSROOT_DIR=${STAGING_DIR}/${MACHINE} \
                 "
 EXTRA_OECONF[vardepsexclude] = "MACHINE"
