@@ -6,14 +6,16 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
-  /mnt/src/poky/meta \
-  /mnt/src/poky/meta-poky \
-  /mnt/src/poky/meta-yocto-bsp \
-  /mnt/src/poky/meta-openembedded/meta-oe \
-  /mnt/src/poky/meta-lemaker \
-  /mnt/src/poky/meta-ra-gas \
-  /mnt/src/poky/meta-rust-bin \
-  "
+  /home/smueller/src/poky/meta \
+  /home/smueller/src/poky/meta-poky \
+  /home/smueller/src/poky/meta-yocto-bsp \
+  /home/smueller/src/poky/meta-openembedded/meta-oe \
+  /home/smueller/src/poky/meta-lemaker \
+  /home/smueller/src/poky/meta-ra-gas \
+  /home/smueller/src/poky/meta-rust-bin \
+"
+
+# /mnt/src/poky/meta-openembedded/meta-oe
 
 # git://git.yoctoproject.org/poky
 # meta-poky         = "git://git.yoctoproject.org/poky master

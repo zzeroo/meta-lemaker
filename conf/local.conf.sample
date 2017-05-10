@@ -86,6 +86,7 @@ MACHINE ??= "bananapro"
 # Ultimately when creating custom policy, people will likely end up subclassing
 # these defaults.
 #
+#DISTRO ?= "poky"
 DISTRO ?= "poky-bleeding"
 # As an example of a subclass there is a "bleeding" edge policy configuration
 # where many versions are set to the absolute latest code from the upstream
@@ -105,7 +106,7 @@ DISTRO ?= "poky-bleeding"
 #  - 'package_rpm' for rpm style packages
 # E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk"
 # We default to rpm:
-PACKAGE_CLASSES ?= "package_rpm package_ipk"
+PACKAGE_CLASSES ?= "package_ipk"
 
 #
 # SDK target architecture
@@ -219,7 +220,6 @@ BB_DISKMON_DIRS = "\
 #file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
 #file://.* file:///some/local/dir/sstate/PATH"
 
-
 #
 # Qemu configuration
 #
@@ -236,13 +236,15 @@ PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
 
+
 # Systemd on and exclusive
 DISTRO_FEATURES_append = " systemd"
-VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_init_manager = "systemd"
 VIRTUAL-RUNTIME_initscripts = ""
+
+#VIRTUAL-RUNTIME_dev_manager = "systemd"
+VIRTUAL-RUNTIME_dev_manager = "udev"
 
 DISTRO_FEATURES_append += " wayland fbdev egl"
 DISTRO_FEATURES_append += " pam"
-
-VIRTUAL-RUNTIME_dev_manager = "systemd"
