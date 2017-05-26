@@ -1,0 +1,14 @@
+[Unit]
+Description=Resize root filesystem to fit available disk space
+Before=shutdown.target
+Conflicts=shutdown.target
+ConditionPathIsReadWrite=/etc
+# After=systemd-remount-fs.service
+ConditionPathExists=!/etc/resize-rootfs.ok
+
+[Service]
+Type=oneshot
+ExecStart=-/usr/sbin/resize-rootfs.sh
+
+[Install]
+WantedBy=basic.target

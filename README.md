@@ -14,14 +14,12 @@ layers: meta
 branch: master
 ```
 
-# Table of Contents
+# Additional information
 
-  I. Building the meta-lemaker BSP layer
- II. Booting the images in /binary
+## Autoresize root filesystem on first boot
 
+If you need an resize of the root filesystem add the following to your image definitions.
 
-# I. Building the meta-lemaker BSP layer
-
---- replace with specific instructions for your layer ---
-
-# II. Booting the images in /binary
+```
+IMAGE_INSTALL += "resize-rootfs"
+```
