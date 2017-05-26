@@ -10,12 +10,14 @@ BBLAYERS ?= " \
   /home/smueller/src/poky/meta-poky \
   /home/smueller/src/poky/meta-yocto-bsp \
   /home/smueller/src/poky/meta-openembedded/meta-oe \
+  /home/smueller/src/poky/meta-clang \
   /home/smueller/src/poky/meta-lemaker \
   /home/smueller/src/poky/meta-ra-gas \
   /home/smueller/src/poky/meta-rust-bin \
 "
 
-# /mnt/src/poky/meta-openembedded/meta-oe
+#/home/smueller/src/poky/meta-clang \
+# /home/smueller/src/poky/meta-openembedded/meta-oe => fonts gnome
 
 # git://git.yoctoproject.org/poky
 # meta-poky         = "git://git.yoctoproject.org/poky master
