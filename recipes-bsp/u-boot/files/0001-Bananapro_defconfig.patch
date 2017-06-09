@@ -1,8 +1,8 @@
 diff --git a/configs/Bananapro_defconfig b/configs/Bananapro_defconfig
-index 9b39124a40..882eb1b490 100644
+index e3bb4b20d5..0b49a59713 100644
 --- a/configs/Bananapro_defconfig
 +++ b/configs/Bananapro_defconfig
-@@ -18,3 +18,12 @@ CONFIG_NETCONSOLE=y
+@@ -19,3 +19,15 @@ CONFIG_NETCONSOLE=y
  CONFIG_ETH_DESIGNWARE=y
  CONFIG_AXP_ALDO4_VOLT=2500
  CONFIG_USB_EHCI_HCD=y
@@ -15,3 +15,6 @@ index 9b39124a40..882eb1b490 100644
 +CONFIG_VIDEO_LCD_BL_PWM_ACTIVE_LOW=n
 +CONFIG_BOOTDELAY=0
 +
++CONFIG_SYS_CONSOLE_INFO_QUIET=y
++CONFIG_DISPLAY_CPUINFO=n
++CONFIG_DISPLAY_BOARDINFO=n
